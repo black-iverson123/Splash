@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<div class="profile-container">
+    <aside class="profile-sidebar">
+        <h2>Hello, {{ user.username }}</h2>
+        <img class="avatar" src="{{ user.avatar(160) }}" alt="Profile Picture">
+        {% if user.last_seen %}
+            <p class="last-seen">Last seen: <em>{{ moment(user.last_seen).fromNow() }}</em></p>
+        {% endif %}
+        {% if user.about_me %}
+            <p class="bio">{{ user.about_me }}</p>
+        {% endif %}
+        <p class="email">Email: {{ user.email }}</p>
+    </aside>
+
+    <main class="profile-main">
+        <section class="communities-section">
+            <h2>My Communities</h2>
+            <div class="community-list">
+                {% for group in user_group %}
+                    <div class="community-item">
+                        {{ group.name }} 
+                        <a href="{{ url_for('remove_community', community=group.name) }}" class="btn btn-danger">Delete</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="joined-communities-section">
+            <h2>Joined Communities</h2>
+            <div class="community-list">
+                {% for group in joined %}
+                    <div class="community-item">
+                        {{ group.name }} Created by <em>{{ group.created_by_user.username }}</em> 
+                        <a href="{{ url_for('leave_group', community_id=group.id) }}" class="btn btn-danger">Leave</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <aside class="profile-settings">
+        <h2>Profile Settings</h2>
+        {% if user == current_user %}
+            <a class="btn btn-primary" href="{{ url_for('edit_profile') }}">Edit your Profile</a>
+            <a class="btn btn-primary" href="{{ url_for('updatePwd') }}">Change password</a>
+        {% endif %}
+        <a class="btn btn-secondary" href="{{ url_for('dashboard') }}">Home</a>
+    </aside>
+</div>
+{% endblock %}

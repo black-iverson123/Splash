@@ -1,0 +1,187 @@
+
+    body {
+        background-image: url('uploads/splash_homepage.jpg');
+        background-size: cover;
+        background-attachment: fixed;
+        background-position: center;
+        font-family: Arial, sans-serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+
+    .coins-container {
+        width: 100%;
+        margin: auto;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        margin-top: 4%;
+    }
+
+    h1 {
+        font-size: 2rem;
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+    thead {
+        background-color: #f4f4f4;
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        font-size: 0.9rem;
+    }
+
+    th {
+        background-color: #e2e6ea;
+        cursor: pointer;
+    }
+
+    th.sortable:hover {
+        background-color: #d0d0d0;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+    }
+
+    .pagination-controls {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .pagination-controls .btn {
+        margin: 0 5px;
+    }
+
+    .search-container {
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .search-container input {
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        width: 400px;
+        font-size: 1rem;
+    }
+
+    .progress-bar {
+        height: 25px; /* Adjust height if needed */
+        border-radius: 10px;
+        background-color: #ddd; /* Light background for progress bar */
+        overflow: hidden;
+        margin: 5px 0;
+        position: relative;
+    }
+    
+    .progress-bar span {
+        display: block;
+        height: 100%;
+        width: 0; /* Width will be adjusted dynamically */
+        transition: width 0.3s ease;
+        text-align: center;
+        color: #fff; /* Text color inside the progress bar */
+        line-height: 25px; /* Align text vertically */
+        font-size: 0.9rem; /* Adjust text size if needed */
+        white-space: nowrap; /* Prevent text from wrapping */
+        position: absolute;
+        left: 0;
+        top: 0;
+        padding: 0 10px; /* Add padding to ensure text is not cut off */
+    }
+    
+    .progress-bar.positive span {
+        background-color: green;
+    }
+    
+    .progress-bar.negative span {
+        background-color: red;
+    }
+
+    /* Dark Mode Styles */
+    .coins-container.dark-mode {
+        background: rgba(50, 50, 50, 0.9);
+        color: #ccc;
+    }
+
+    th {
+        background-color: #333;
+        color: #fff;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #444;
+    }
+
+    tbody tr:hover {
+        background-color: #555;
+    }
+
+    .btn-primary {
+        background-color: #0056b3;
+    }
+
+    .btn-primary:hover {
+        background-color: #003d7a;
+    }
+
+    .btn-disabled {
+        background-color: #5a6268;
+    }
+
+    .tooltip {
+        position: absolute;
+        background: #333;
+        color: #fff;
+        padding: 5px;
+        border-radius: 3px;
+        font-size: 0.75rem;
+        display: none;
+        z-index: 1000;
+    }

@@ -1,0 +1,1 @@
+"A Python package for real-time cryptocurrency price tracking using Flask and WebSockets. Contributions welcome!"

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/visitor_profile.css') }}">
+<style>
+    body {
+        background-image: url('static/uploads/splash_homepage.jpg');
+    }
+</style>
+
+<div class="profile-container">
+    <div class="profile-header">
+        <img class="avatar" src="{{ user.avatar(160) }}" alt="Profile Picture">
+        <h1>{{ user.username }}</h1>
+        {% if user.last_seen %}
+            <p class="last-seen">Last seen: <em>{{ moment(user.last_seen).fromNow() }}</em></p>
+        {% endif %}
+    </div>
+
+    <div class="profile-body">
+        <div class="bio-section">
+            <h2>About {{ user.username }}</h2>
+            {% if user.about_me %}
+                <p>{{ user.about_me }}</p>
+            {% else %}
+                <p>No bio available.</p>
+            {% endif %}
+        </div>
+
+        <div class="info-section">
+            <div class="info-card">
+                <h2>Email</h2>
+                <p>{{ user.email }}</p>
+            </div>
+            <div class="info-card">
+                <h2>Communities</h2>
+                <div class="community-list">
+                    {% for group in user_group %}
+                        <div class="community-item">{{ group.name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="info-card">
+                <h2>Joined Communities</h2>
+                <div class="community-list">
+                    {% for group in joined %}
+                        <div class="community-item">{{ group.name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="profile-footer">
+        <a class="btn btn-primary" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,115 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f8f9fa;
+}
+.dashboard {
+  display: flex;
+  height: 90vh;
+  width: 100%;
+}
+.sidebar {
+  min-width: 250px;
+  background-color: #f8f9fa;
+  padding: 20px;
+  color: black;
+  transition: all 0.3s ease;
+  transform: translateX(-100%);
+  animation: slideIn 0.5s forwards;
+  overflow-y: scroll;
+}
+@keyframes slideIn {
+  to {
+      transform: translateX(0);
+  }
+}
+.sidebar h2 {
+  color: #007bff;
+}
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  margin: 10px 0;
+  transition: all 0.3s ease;
+}
+.sidebar a:hover {
+  text-decoration: underline;
+  transform: scale(1.05);
+}
+.main {
+  flex: 1;
+  padding: 20px;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+}
+@keyframes fadeIn {
+  to {
+      opacity: 1;
+  }
+}
+.community {
+  margin-bottom: 15px;
+  animation: fadeUp 0.5s forwards;
+  opacity: 0;
+}
+@keyframes fadeUp {
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+.btn-custom {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+  background: linear-gradient(45deg, #007bff, #0056b3);
+  border: none;
+  border-radius: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+}
+.btn-custom:hover {
+  background: linear-gradient(45deg, #0056b3, #007bff);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+.trends {
+  padding: 20px;
+  background-color: #f8f9fa;
+  animation: fadeIn 5s forwards;
+  opacity: 0;
+  overflow-y: scroll;
+}
+.footer-link {
+  color: #007bff;
+  transition: color 0.3s;
+}
+.footer-link:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) {
+    /* CSS rules for screens smaller than or equal to 768px */
+    .dashboard {
+      flex-direction: column; /* Arrange children vertically */
+      width: 100%;
+      margin-top: 2vh;
+    }
+  
+    .card {
+      flex-direction: column; /* Arrange children vertically */
+      width: 100%;
+      padding: 10px;
+    }
+  
+    .sidebar, .main, .trends {
+      /* Adjust the width as needed */
+      width: 100%;
+      height: auto;
+    }
+  }
+  

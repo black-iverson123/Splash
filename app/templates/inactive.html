@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <div class="confirmation-page">
+        <h1>Welcome, {{ username }}!</h1>
+        <p>Nice to have you onboard, One last thing to do before the platform is opened to you</p>
+        <p> <a href="{{ url_for('resend_confirmation') }}">Click here to activate your account!</a>.</p>
+    </div>
+{% endblock %}

@@ -1,0 +1,268 @@
+/* Define CSS variables for light and dark themes */
+:root {
+  --background-light: #ffffff;
+  --background-dark: #181a1b;
+  --text-light: #000000;
+  --text-dark: #e4e6eb;
+  --button-bg-light: #007bff;
+  --button-bg-dark: #0056b3;
+  --button-text-light: #ffffff;
+  --button-text-dark: #ffffff;
+  --message-bg-light: #f1f0f0;
+  --message-bg-dark: #2b2d2f;
+  --navbar-bg-light: #ffffff;
+  --navbar-bg-dark: #333;
+  --navbar-text-light: #000;
+  --navbar-text-dark: #e4e6eb;
+}
+
+/* Light mode styles (default) */
+body {
+  background-color: var(--background-light);
+  color: var(--text-light);
+  font-family: Arial, sans-serif;
+  margin-top: 5px;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbar {
+  background-color: var(--navbar-bg-light);
+  color: var(--navbar-text-light);
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.navbar h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--navbar-text-light);
+}
+
+
+.navbar-toggler {
+  border: none;
+  background: transparent;
+}
+
+.navbar-toggler-icon {
+  background-image: url('path-to-light-mode-icon.svg'); /* Adjust path as needed */
+}
+
+.navbar-nav .nav-link {
+  color: var(--navbar-text-light);
+}
+
+.navbar-nav .nav-link.active {
+  font-weight: bold;
+}
+
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  
+  width: 100%;
+  margin: 60px auto 0;
+  background-color: var(--background-light);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 10px;
+  height: calc(100vh - 120px);
+}
+
+.chat-header {
+  background-color: #4267B2;
+  color: var(--text-light);
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat-messages {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message.sent {
+  align-items: flex-end;
+}
+
+.chat-message.received {
+  align-items: flex-start;
+}
+
+.chat-message .text {
+  max-width: 60%;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.chat-message.sent .text {
+  background-color: var(--button-bg-light);
+  color: var(--button-text-light);
+}
+
+.chat-message.received .text {
+  background-color: var(--message-bg-light);
+  color: var(--text-light);
+}
+
+.chat-inputs {
+  padding: 15px;
+  border-top: 1px solid #ddd;
+  background-color: var(--background-light);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.chat-inputs textarea {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 1rem;
+  resize: none;
+  margin-right: 10px;
+  min-height: 50px;
+}
+
+.chat-inputs button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--button-bg-light);
+  color: var(--button-text-light);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.chat-inputs button:hover {
+  background-color: var(--button-bg-light);
+}
+
+.dark-mode-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--button-bg-light);
+  color: var(--button-text-light);
+  border: none;
+  border-radius: 50%;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 1.25rem;
+  transition: background-color 0.3s;
+}
+
+.dark-mode-toggle:hover {
+  background-color: var(--button-bg-dark);
+}
+
+/* Dark mode styles */
+body.dark-mode {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
+}
+
+.navbar.dark-mode {
+  background-color: var(--navbar-bg-dark);
+  color: var(--navbar-text-dark);
+}
+
+.navbar.dark-mode h1 {
+  color: var(--navbar-text-dark);
+}
+
+.navbar.dark-mode .navbar-toggler {
+  border: none;
+}
+
+.navbar.dark-mode .navbar-toggler-icon {
+  background-image: url('path-to-dark-mode-icon.svg'); /* Adjust path as needed */
+}
+
+.navbar.dark-mode .navbar-nav .nav-link {
+  color: var(--navbar-text-dark);
+}
+
+.navbar.dark-mode .navbar-nav .nav-link.active {
+  font-weight: bold;
+}
+
+.chat-container.dark-mode {
+  background-color: var(--background-dark);
+}
+
+.chat-header.dark-mode {
+  background-color: #333;
+}
+
+.chat-messages.dark-mode .chat-message.sent .text {
+  background-color: var(--button-bg-dark);
+}
+
+.chat-messages.dark-mode .chat-message.received .text {
+  background-color: var(--message-bg-dark);
+}
+
+.chat-inputs.dark-mode {
+  background-color: #333;
+  border-top: 1px solid #444;
+}
+
+.chat-inputs.dark-mode textarea {
+  border: 1px solid #444;
+  background-color: #222;
+  color: var(--text-dark);
+}
+
+.chat-inputs.dark-mode button {
+  background-color: var(--button-bg-dark);
+}
+
+.chat-inputs.dark-mode button:hover {
+  background-color: #003d7a;
+}
+
+
+@media screen and (max-width: 768px) {
+  /* CSS rules for screens smaller than or equal to 768px */
+  .chat-container {
+    width: 100%;
+  }
+
+  .chat-header, .chat-messages, .chat-inputs {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  textarea {
+    width: 100%;
+  }
+
+  #send-btn {
+    width: 100%;
+  }
+}
