@@ -77,7 +77,8 @@ def signUp():
         login_user(user)
         
         #flash(f'A confirmatory mail has been sent to {user.email}!!! ', 'warning')
-        
+        session['name'] = current_user.username
+        session['user_id'] = current_user.id
         return redirect(url_for('index'))
     else:
         return render_template('signup.html', title='Sign Up',  form=form)

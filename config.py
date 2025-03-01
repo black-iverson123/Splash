@@ -1,22 +1,26 @@
 import os
 from dotenv import load_dotenv
 
+# Load environment variables
 load_dotenv()
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
-    SECRET_KEY = 'Darkside' or os.getenv('SECRET_KEY')  #create your secret key 
-    # Specify your MySQL database name at the end of the connection string
-    #SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL') #set-up your database url
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'splash.db')
-    SQLALCHEMY_TRACK_MODIFICATIONS = True
-    MAIL_SERVER = '' or os.getenv('MAIL_SERVER')  #smtp.mailserver  
-    MAIL_SENDER = '' or os.getenv('MAIL_SENDER') #mail sender     MAIL_PORT = 465
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
-    MAIL_USERNAME = '' or os.getenv('MAIL_USERNAME') #mail of choice username
-    MAIL_PASSWORD = '' or os.getenv('MAIL_PASSWORD')#mail of choice password or app password
-    ADMIN = '' or os.getenv('ADMIN')
+    SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key')  
+    SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'sqlite:///' + os.path.join(basedir, 'splash.db'))
+    SQLALCHEMY_TRACK_MODIFICATIONS = False  # Set to False for better performance
+
+    # Mail settings
+    MAIL_SERVER = os.getenv('MAIL_SERVER', '')
+    MAIL_SENDER = os.getenv('MAIL_SENDER', '')
+    MAIL_PORT = int(os.getenv('MAIL_PORT', 465))  # Convert to integer
+    MAIL_USE_TLS = os.getenv('MAIL_USE_TLS', 'False').lower() == 'true'
+    MAIL_USE_SSL = os.getenv('MAIL_USE_SSL', 'True').lower() == 'true'
+    MAIL_USERNAME = os.getenv('MAIL_USERNAME', '')
+    MAIL_PASSWORD = os.getenv('MAIL_PASSWORD', '')
+
+    # Admin and uploads
+    ADMIN = os.getenv('ADMIN', '')
     UPLOAD_EXTENSIONS = [".jpg", ".png"]
     UPLOAD_PATH = "app/static/uploads"
