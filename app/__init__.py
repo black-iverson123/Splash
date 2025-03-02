@@ -25,7 +25,7 @@ login.login_view='index'
 login.session_protection = 'strong'
 #auth = Blueprint('auth', __name__)
 mail = Mail(app)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 moment = Moment(app)
 
 

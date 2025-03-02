@@ -8,5 +8,5 @@ def make_shell_context():
 if __name__=='__main__':
     app.app_context().push()
     db.create_all()
-    socketio.run(app, debug=True, allow_unsafe_werkzeug=True)
+    socketio.run(app, host="0.0.0.0", port=int("5000"), debug=True, allow_unsafe_werkzeug=True)
     #app.run(debug=True) 

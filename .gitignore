@@ -4,3 +4,6 @@ venv/
 .idea/
 __pycache__/ 
 .hintrc
+instance/
+.hintrc
+.dockerignore
