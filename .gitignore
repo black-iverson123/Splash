@@ -1,9 +1,34 @@
+# Environment variables
 .env
+
+# Database files
 *.db
+
+# Virtual environment
 venv/
+
+# IDE configuration
 .idea/
+
+# Python cache files
 __pycache__/ 
+*.pyc
+*.pyo
+*.pyd
+
+# Testing and coverage
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Hint configuration
 .hintrc
+
+# Instance folder
 instance/
-.hintrc
+
+# Docker-related files (if applicable)
 .dockerignore
+Dockerfile
+entrypoint

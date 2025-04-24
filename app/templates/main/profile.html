@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 {% block app_content %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/profile.css') }}">
@@ -23,7 +23,7 @@
                 {% for group in user_group %}
                     <div class="community-item">
                         {{ group.name }} 
-                        <a href="{{ url_for('remove_community', community=group.name) }}" class="btn btn-danger">Delete</a>
+                        <a href="{{ url_for('main.remove_community', community=group.name) }}" class="btn btn-danger">Delete</a>
                     </div>
                 {% endfor %}
             </div>
@@ -35,7 +35,7 @@
                 {% for group in joined %}
                     <div class="community-item">
                         {{ group.name }} Created by <em>{{ group.created_by_user.username }}</em> 
-                        <a href="{{ url_for('leave_group', community_id=group.id) }}" class="btn btn-danger">Leave</a>
+                        <a href="{{ url_for('main.leave_group', community_id=group.id) }}" class="btn btn-danger">Leave</a>
                     </div>
                 {% endfor %}
             </div>
@@ -45,10 +45,10 @@
     <aside class="profile-settings">
         <h2>Profile Settings</h2>
         {% if user == current_user %}
-            <a class="btn btn-primary" href="{{ url_for('edit_profile') }}">Edit your Profile</a>
-            <a class="btn btn-primary" href="{{ url_for('updatePwd') }}">Change password</a>
+            <a class="btn btn-primary" href="{{ url_for('main.edit_profile') }}">Edit your Profile</a>
+            <a class="btn btn-primary" href="{{ url_for('auth.updatePwd') }}">Change password</a>
         {% endif %}
-        <a class="btn btn-secondary" href="{{ url_for('dashboard') }}">Home</a>
+        <a class="btn btn-secondary" href="{{ url_for('main.dashboard') }}">Home</a>
     </aside>
 </div>
 {% endblock %}

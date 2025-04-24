@@ -1,6 +1,7 @@
 from datetime import datetime
 
 def greeting():
+    """This function checks current time to render approriate greeting"""
     current_Time = datetime.now()
     greeting = ''
     if current_Time.hour < 12:

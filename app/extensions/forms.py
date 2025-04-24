@@ -18,7 +18,6 @@ class Signup(FlaskForm):
     email =  EmailField('Email', [validators.Email(message='Enter a valid Email addrress!!!')])
     password = PasswordField('Password', [validators.DataRequired(message="use a strong combination!!!"), validators.Length(min=8, max=15)])
     password2 = PasswordField('Confirm Password',[validators.DataRequired(message="Re-enter password!!!"),validators.EqualTo('password', message='Mismatched Passwords!!!')])
-    #profile_pic = FileField('Profile Picture', validators=[FileRequired(message="Upload a photo!!!"), FileAllowed(['jpg','png'],'Images Only!!!')])
     submit = SubmitField('Sign Up')
     
     
@@ -78,7 +77,6 @@ class updatePassword(FlaskForm):
 class community(FlaskForm):
     name = StringField('Name of community', validators=[DataRequired(message="You can't create a community without a name!")])
     about = TextAreaField('About community', validators=[DataRequired(message="Community must have a description!")])
-    role = BooleanField('Admin' , default=False)
     submit = SubmitField('Create community')
     
     def validate_name(self, name):

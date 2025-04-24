@@ -1,3 +1,5 @@
+"""This script launches the application"""
+
 from app import create_app, socketio, db
 from app.extensions.models import User
 

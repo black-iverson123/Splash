@@ -1,3 +1,5 @@
+"""Initialization of app factory"""
+
 from flask import Flask, redirect, url_for
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
@@ -24,9 +26,11 @@ mail = Mail()
 bootstrap = Bootstrap()
 socketio = SocketIO(cors_allowed_origins="*")
 moment = Moment()
-CMC_API_KEY = os.getenv('API_KEY')
+
 
 def create_app(config_class=Config):
+    """This function initializes app factory variables and set default
+        routing parameters"""
     app = Flask(__name__)
     app.config.from_object(config_class)
 
@@ -44,7 +48,7 @@ def create_app(config_class=Config):
     app.register_blueprint(auth_bp, url_prefix='/auth')
 
     from app.main import bp as main_bp
-    app.register_blueprint(main_bp)
+    app.register_blueprint(main_bp, url_prefix='/main')
 
     # Redirect root URL to auth.index
     @app.route('/')

@@ -1,0 +1,42 @@
+{% extends 'main/base.html' %} 
+{% block app_content %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/coins.css') }}"> 
+<script src="{{ url_for('static', filename='js/coin_fetch.js') }}"></script>
+<style>
+    body {
+        background-image: url('static/uploads/splash_homepage.jpg');
+    }
+</style>
+<div class="coins-container">
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Search for a cryptocurrency..." aria-label="Search for a cryptocurrency">
+        <button class="btn btn-secondary" id="dark-mode-toggle">Toggle Dark Mode</button>
+    </div>
+
+    <table id="coin-data">
+        <thead>
+            <tr>
+                <th class="sortable" data-sort="rank">Rank</th>
+                <th class="sortable" data-sort="name">Name</th>
+                <th class="sortable" data-sort="symbol">Symbol</th>
+                <th class="sortable" data-sort="price">Price</th>
+                <th class="sortable" data-sort="circulating_supply">Circulating Supply</th>
+                <th class="sortable" data-sort="volume_24h">Volume (24h)</th>
+                <th class="sortable" data-sort="percent_change_in_1h">Change (1h)</th>
+                <th class="sortable" data-sort="percent_change_in_24h">Change (24h)</th>
+                <th class="sortable" data-sort="percent_change_in_7d">Change (7d)</th>
+            </tr>
+        </thead>
+        <tbody id="coin-data-body">
+            <!-- Data rows will be inserted here dynamically by coin_fetch.js -->
+        </tbody>
+    </table>
+    <div class="pagination-controls">
+        <button class="btn btn-primary" id="prev-page" disabled>Previous</button>
+        <button class="btn btn-primary" id="next-page">Next</button>
+        <span id="current-page">Page 1</span>
+        <a class="btn btn-primary" href="{{ url_for('main.dashboard') }}">Home</a>
+    </div>
+    <div class="tooltip" id="tooltip"></div>
+</div>
+{% endblock %}

@@ -13,6 +13,8 @@ def load_user(id):
 
 
 class User(UserMixin, db.Model):
+    """This class creates a users table and sets relationship between
+    users and community"""
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -55,8 +57,8 @@ class User(UserMixin, db.Model):
 
 
 class Community(db.Model):
+    """This class creates a communities and links community to its creator id"""
     __tablename__ = "communities"
-
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     name = db.Column(db.String(64), unique=True, index=True)
     about = db.Column(db.String(128))
@@ -69,8 +71,8 @@ class Community(db.Model):
 
 
 class Messages(db.Model):
+    """This class creates a messages table, messages are stored with respect to sender id and time"""
     __tablename__ = "messages"
-
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
@@ -82,6 +84,8 @@ class Messages(db.Model):
         return f'<Messages {self.content}>'
 
 
+"""Below is am association table that describes the relationships between communities 
+and users"""
 community_members = db.Table(
     'community_members',
     db.Column('community_id', db.Integer, db.ForeignKey("communities.id")),

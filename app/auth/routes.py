@@ -1,5 +1,5 @@
 from flask import render_template, url_for, redirect, flash, request, session
-from app.extensions.forms import LoginForm, Signup, PasswordResetRequest, ResetPassword, updatePassword
+from app.extensions.forms import LoginForm, Signup, PasswordResetRequest, ResetPassword, updatePassword, searchForm
 from app.extensions.models import User
 from app.auth import bp
 from app import db
@@ -11,6 +11,7 @@ from app.extensions.greeting import greeting
 
 @bp.before_request
 def before_request():
+    """This function registers users last active"""
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
@@ -18,6 +19,7 @@ def before_request():
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 def index():
+    """View function that renders login page and redirects on authentication"""
     if current_user.is_authenticated:
         return redirect(url_for('main.dashboard'))
     form = LoginForm(request.form)
@@ -34,6 +36,7 @@ def index():
 
 @bp.route('/register', methods=['GET', 'POST'])
 def signUp():
+    """View funtion that handles redering of signup form and submission"""
     form = Signup()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
@@ -49,12 +52,14 @@ def signUp():
 @bp.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
+    """View function to log users out of the app and redirect to login page"""
     logout_user()
     flash("You have been logged out successfully!!!", 'warning')
     return redirect(url_for('auth.index'))
 
 @bp.route("/confirm/<token>", methods=['GET', 'POST'])
 def confirm_email(token):
+    """View function for email address confirmation"""
     email = confirm_token(token)
     if email:
         user = db.session.query(User).filter(User.email == email).one_or_none()
@@ -71,14 +76,17 @@ def confirm_email(token):
 @bp.route('/inactive', methods=['GET', 'POST'])
 @login_required
 def inactive():
+    """View function that checks for user confirmation"""
+    form = searchForm()
     if current_user.confirmed:
         return redirect(url_for("main.dashboard"))
     greet = greeting()
-    return render_template("inactive.html", title='Account inactive', greeting=greet, username=current_user.username)
+    return render_template("auth/inactive.html", title='Account inactive', greeting=greet, username=current_user.username, form=form)
 
 @bp.route('/resend', methods=['GET', 'POST'])
 @login_required
 def resend_confirmation():
+    """View function that checks for user confirmation and resends email if not"""
     if current_user.confirmed:
         flash("Your account has already been confirmed!!!", 'success')
         return redirect(url_for('main.dashboard'))
@@ -91,6 +99,7 @@ def resend_confirmation():
 
 @bp.route('/reset_password', methods=['GET', 'POST'])
 def password_reset():
+    """View function that sends email based on reset password request"""
     if current_user.is_authenticated:
         return redirect(url_for('main.dashboard'))
     greet = greeting()
@@ -104,10 +113,13 @@ def password_reset():
             send_mail(user.email, subject, html)
         flash('Check your email for instructions to reset your password!!!', 'info')
         return redirect(url_for('auth.index'))
-    return render_template('password_reset.html', title='Reset Password', form=form, greeting=greet)
+    return render_template('auth/password_reset.html', title='Reset Password', form=form, greeting=greet)
 
 @bp.route('/password_reset/<token>', methods=['GET', 'POST'])
 def reset_password(token):
+    """View function that crosschecks token recieved from user and validates before
+        allowing form rendering
+    """
     if current_user.is_authenticated:
         return redirect(url_for('main.dashboard'))
     user = User.verify_password_reset_token(token)
@@ -119,12 +131,12 @@ def reset_password(token):
         db.session.commit()
         flash('Your password has been reset!!!', 'warning')
         return redirect(url_for('auth.index'))
-    return render_template('reset_password.html', form=form)
+    return render_template('auth/reset_password.html', form=form)
 
 @login_required
 @bp.route('/password_update', methods=['GET', 'POST'])
 def updatePwd():
-    
+    """View function to update or change password in app"""
     form = updatePassword()
     if request.method == 'POST':
         email = request.form.get('email')
@@ -144,4 +156,4 @@ def updatePwd():
                 db.session.commit()
                 flash('Password has been updated successfully!', 'success')
                 return redirect(url_for('main.dashboard'))
-    return render_template('password_update.html', user=current_user, form=form)
+    return render_template('auth/password_update.html', user=current_user, form=form)
