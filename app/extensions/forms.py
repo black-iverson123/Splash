@@ -1,10 +1,7 @@
-from collections.abc import Sequence
-from typing import Mapping
 from flask_wtf import FlaskForm
 from wtforms import StringField, EmailField, PasswordField, BooleanField, SubmitField, TextAreaField, validators
 from wtforms.validators import ValidationError, DataRequired, ValidationError, Length, Email, EqualTo, Regexp
-from app.models import User, Community
-from flask_wtf.file import FileField, FileAllowed, FileRequired
+from app.extensions.models import User, Community
 
 
 

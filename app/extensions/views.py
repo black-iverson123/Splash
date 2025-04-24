@@ -4,26 +4,21 @@ from app.models import User, Community, community_members, Messages
 from app import app, db, CMC_API_KEY
 from flask_login import login_user, login_required, logout_user, current_user
 from app.email import send_mail
-#from urllib.parse import urlparse
 from app.token import confirm_token, generate_token
 from datetime import datetime
 from app.greeting import greeting
 import requests, os
-#from werkzeug.utils import secure_filename
 import random
 from app import socketio
 from flask_socketio import join_room, leave_room, send, emit
 from sqlalchemy import select, and_, text, delete, sql
 from flask_paginate import Pagination, get_page_args
 
-
-
 @app.before_request
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
         db.session.commit()
-
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
@@ -38,11 +33,7 @@ def index():
                 return redirect(url_for('index'))
                 
         login_user(user)
-        '''
-        next_page = request.args.get('next')
-        if not next_page or urlparse(next_page).netloc != '':
-            next_page = url_for('dashboard')
-        '''
+
         session['name'] = current_user.username
         session['user_id'] = current_user.id
         return redirect(url_for('dashboard'))
@@ -54,25 +45,10 @@ def signUp():
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
         user.set_password(form.password.data)
-        '''
-        uploaded_file = form.profile_pic.data
-        filename = secure_filename(uploaded_file.filename)
-        profile_pic_path = os.path.join(app.config['UPLOAD_PATH'], filename)
-        uploaded_file.save(profile_pic_path)
-        user.profile_pic = profile_pic_path
-        path_list = user.profile_pic.split('/')[1:]
-        new_path = '/'.join(path_list)
-        user.profile_pic = new_path
-        '''
+
         db.session.add(user)
         db.session.commit()
-        '''
-        token = generate_token(user.email)
-        #print(token)
-        html = render_template('email/confirm_email.html', token=token)
-        subject = "Please confirm your email"
-        send_mail(user.email, subject, html)
-        '''
+ 
         
         login_user(user)
         
@@ -83,16 +59,13 @@ def signUp():
     else:
         return render_template('signup.html', title='Sign Up',  form=form)
     
-
 @app.route('/welcome', methods=['GET', 'POST'])
 @login_required
 def dashboard():
-    '''
+    
     if current_user.confirmed != True:
         return redirect(url_for('inactive'))
-    '''
     
-    #else:
     greet = greeting()
     created_communities = Community.query.filter_by(created_by_user_id=current_user.id)
     global_communities = Community.query.all() 
@@ -100,8 +73,7 @@ def dashboard():
     joined = User.query.get(current_user.id).communities
                 
     return render_template('Dashboard.html', title='Dashboard', greeting=greet, my_communities=created_communities,
-                           globals=global_communities, joined=joined)
-    
+                           globals=global_communities, joined=joined)   
 
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
@@ -114,7 +86,7 @@ def logout():
 @login_required
 def confirm_email(token):
     email = confirm_token(token)
-    #print(email)
+    print(email)
     if email:
         user = db.session.query(User).filter(User.email == email).one_or_none()
         user.confirmed = True
@@ -127,7 +99,6 @@ def confirm_email(token):
         flash("The confirmation link is invalid or has expired.", "danger")
         return redirect(url_for("resend_confirmation"))
 
-
 @app.route('/inactive', methods=['GET', 'POST'])
 @login_required
 def inactive():
@@ -135,7 +106,6 @@ def inactive():
         return redirect(url_for("dashboard"))
     greet = greeting()
     return render_template("inactive.html", title='Account inactive', greeting=greet, username=current_user.username)
-
 
 @app.route('/resend', methods=['GET', 'POST'])
 @login_required
@@ -149,9 +119,6 @@ def resend_confirmation():
     send_mail(current_user.email, subject, html)
     flash(f"An email has been sent to {current_user.email}!!!.", 'info')
     return redirect(url_for('inactive', username=current_user.username))
-
-
-
 
 @app.route('/coin-data', methods=['GET'])
 def get_latest_prices(CMC_API_KEY=CMC_API_KEY, limit=50, convert='USD'):
@@ -186,20 +153,10 @@ def get_latest_prices(CMC_API_KEY=CMC_API_KEY, limit=50, convert='USD'):
         })
     return jsonify({'coins': coins, 'total_count': total_count})
 
-
-
-
-
-            
-
 @app.route('/coin-listing', methods=['GET', 'POST'])
 def coin_listing():
     greet = greeting()       
     return render_template('coins.html', title='Coins and Prices', greeting=greet)
-
-    
-    
-
 
 @app.route('/user/<username>', methods=['GET', 'POST'])
 @login_required
@@ -241,8 +198,8 @@ def edit_profile():
 
 @app.route('/reset_password', methods=['GET', 'POST'])
 def password_reset():
-   # if current_user.is_authenticated:
-      #  return redirect(url_for('dashboard'))
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     greet = greeting()
     form = PasswordResetRequest()
     if form.validate_on_submit():
@@ -259,8 +216,8 @@ def password_reset():
 
 @app.route('/password_reset/<token>', methods=['GET', 'POST'])
 def reset_password(token):
-    #if current_user.is_authenticated:
-     #   return redirect(url_for('dashboard'))
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
     user = User.verify_password_reset_token(token)
     #print(user)
     if not user:
@@ -314,14 +271,11 @@ def create_community():
     else:
         return render_template('create_community.html', user=current_user, form=form)
        
-
-
 @app.route('/about')
 def about():
     greet = greeting()
     return render_template('about.html', greeting=greet)
   
-
 @app.route('/delete/<community>', methods=["GET", "POST"])
 @login_required
 def remove_community(community):
@@ -337,8 +291,7 @@ def remove_community(community):
         db.session.rollback()
         flash("Operation was not successful!!!", "warning")
     return redirect(url_for('user', username=current_user.username))
-
-    
+ 
 @app.route('/join_community/<int:community_id>', methods=["GET", "POST"])
 @login_required
 def join_community(community_id):
@@ -376,7 +329,6 @@ def join_community(community_id):
         flash("You created this group!!!", "warning")
         return redirect(url_for('dashboard'))
     
-
 @app.route('/leave_community/<int:community_id>', methods=['GET', 'POST'])
 @login_required
 def leave_group(community_id):
@@ -392,8 +344,6 @@ def leave_group(community_id):
         
         return redirect(url_for('user', username=current_user.username))
             
-        
-
 @app.route('/community/<community>', methods=['GET', 'POST'])
 @login_required
 def community_chat(community):
@@ -423,46 +373,6 @@ def message(data):
     send(content, to=room)
     
     print(f"{session.get('name')} said: {data['data']}")
-
-'''
-@socketio.on('connect')
-def connect(auth):
-    room = session.get('room')
-    #name = session.get('name')
-    
-    if not room:
-        return
-    
-    if room is None:
-        leave_room(room)
-    
-    join_room(room)
-    community = Community.query.filter_by(name=room).first_or_404()
-    room_id = community.id
-
-    # Fetch all messages for the community in a single query
-    messages = Messages.query.filter_by(community_id=room_id).all()
-
-    # Loop through each message
-    for message in messages:
-        user = User.query.get(message.user_id)
-        if not user:
-            abort(404, description=f"User with ID {message.user_id} not found")
-
-        # Format the timestamp
-        dt = datetime.strptime(str(message.timestamp), "%Y-%m-%d %H:%M:%S.%f")
-        formatted_date = dt.strftime("%B %Y %d %H:%M")
-        
-        # Construct the message
-        sms = f"{message.content} {formatted_date}"
-        
-        # Print and send the message
-        print(user.username)
-        print(sms)
-        send({"name": user.username, "message": sms}, to=room)
-    #print(f"{name} joined the room {room}")
-'''
-
 
 @socketio.on('connect')
 def connect(auth):
@@ -503,7 +413,6 @@ def connect(auth):
         print(sms)
         send({"name": user.username, "message": sms}, to=room)
 
-
 @socketio.on('disconnect')
 def disconnect():
     room = session.get('room')
@@ -512,7 +421,6 @@ def disconnect():
     
     send({"name": name, "message": "has left the room"}, to=room)
     print(f"{name} has left the room")
-
 
 @app.route('/search', methods=['GET', 'POST'])
 def search(CMC_API_KEY=CMC_API_KEY, convert='USD'):
@@ -573,8 +481,6 @@ def search(CMC_API_KEY=CMC_API_KEY, convert='USD'):
     return render_template('search.html', form=form, result=data, groups=groups, users=users, 
                             count=count, greeting=greeting(), coins=coins)
         
-
-
 @app.context_processor
 def base():
     form = searchForm()

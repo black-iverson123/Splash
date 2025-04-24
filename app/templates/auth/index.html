@@ -14,10 +14,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <style>
         body {
-            background-image: url('static/uploads/splash_homepage.jpg');
+            background-image: url('{{ url_for('static', filename='uploads/splash_homepage.jpg') }}');
         }
     </style>
-    
     <div class='col-md-4'>
         <center>
             <h1>{{ ('Login') }}</h1>
@@ -51,11 +50,11 @@
                 <p>{{ form.submit(class="btn btn-primary")}}</p>
                 <p>
                     Forgot Your Password?
-                    <a href="{{ url_for('password_reset') }}">Click to Reset</a>
+                    <a href="{{ url_for('auth.password_reset') }}">Click to Reset</a>
                 </p>
                 <p>
                     New to the platform?
-                    <a href="{{ url_for('signUp') }}">Signup</a>
+                    <a href="{{ url_for('auth.signUp') }}">Signup</a>
                 </p>
         </form>
     </div>

@@ -1,6 +1,6 @@
 from itsdangerous import URLSafeTimedSerializer as Serializer
 
-from app import app
+from flask import current_app as app
 
 def generate_token(email):
     s = Serializer(app.config['SECRET_KEY'])
